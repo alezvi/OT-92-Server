@@ -1,12 +1,10 @@
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import { ErrorMessage } from "formik";
 import Editor from "ckeditor5-custom-build/build/ckeditor";
-import React, { useState } from "react";
-
 const editorConfiguration = {
   toolbar: {
     items: [
       "|",
-      "heading",
       "bold",
       "italic",
       "link",
@@ -20,7 +18,7 @@ const editorConfiguration = {
   },
   language: "es",
 };
-const EditorField = ({ setDescription }) => {
+const EditorField = ({ setInitialValues, initialValues, name }) => {
   return (
     <>
       <CKEditor
@@ -30,10 +28,11 @@ const EditorField = ({ setDescription }) => {
           console.log("ck is ready to use");
         }}
         onChange={(event, editor) => {
-          const data = editor.getData();
-          setDescription(data);
+          const description = editor.getData();
+          setInitialValues({ ...initialValues, description });
         }}
       />
+      <ErrorMessage name={name}></ErrorMessage>
     </>
   );
 };
